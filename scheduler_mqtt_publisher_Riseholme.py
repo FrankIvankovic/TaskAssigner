@@ -1,22 +1,12 @@
 #!/usr/bin/env python3
 
-import paho.mqtt.client as mqtt # pip3 install paho-mqtt
-import os, json
-import msgpack
-
-import run_Riseholme_tests
-import time 
 import datetime
-import random
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
 
 import field_maps.field_maps_3 as fm3
-import pickers_model.agent.picking_agent as pick
-import pickers_model.pickers_model as pmodel 
 import pickers_model.pickers_model_coordinated as pmodelc
-import matplotlib.pyplot as plt
-import pickers_model.agent.agent_portrayal as ap
-# import pickers_model.strawberry_field
-from matplotlib.patches import Rectangle, Polygon
+
 from scheduler_mqtt_publisher_3 import MqttCommandSender
 
 def create_Riseholme_model(): 
