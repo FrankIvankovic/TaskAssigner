@@ -59,8 +59,8 @@ def make_Riseholme_1( spacetype = SpaceType.CONTINUOUS2D ):
     field.longdif_to_meters = 66.5232 / 0.001
     field.latdif_to_meters = 111.2298 / 0.001
     
-    field.image_path = "../PlaceUK_satellite/Riseholme_1.png" 
-    field.image_dim = ( 49, 58 ) 
+    #field.image_path = "../PlaceUK_satellite/Riseholme_1.png" 
+    #field.image_dim = ( 49, 58 ) 
     
     tunnel_l = 8.0 
     tunnel_w = 24.0 
@@ -86,8 +86,8 @@ def make_Riseholme_1( spacetype = SpaceType.CONTINUOUS2D ):
     for t in field.polytunnel_list: 
         t.rotate_shapely( angle, origin = (sw_x,sw_y), use_radians=True )    
 
-    datumfile = '../TopologicalMaps/datum.yaml'
-    filename = '../TopologicalMaps/tmap.yaml'
+    datumfile = 'TopologicalMaps/datum.yaml'
+    filename = 'TopologicalMaps/tmap.yaml'
     # filename = '../TopologicalMaps/network.yaml'
 
     # field.topological_map = guess_topological_map( field ) 
