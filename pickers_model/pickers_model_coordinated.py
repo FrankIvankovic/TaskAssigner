@@ -66,7 +66,7 @@ class PickersModelTaskAssigner( PickersModel ):
             if p.picker_id == reading["user"]:
                 #print('Here: ', p.picker_id, reading) 
                 p.battery_message = reading
-                #print('Updated: ', p.battery_message)
+                print('Updated batter level for: ', p.picker_id, ' Battery level: ', reading["Status"], ' Voltage: ', reading["Voltage"])
 
     def update_picker_status( self, msg_content ): # to actually update the model
         
@@ -108,8 +108,9 @@ class PickersModelTaskAssigner( PickersModel ):
             tdelta = dt - dt0 #seconds since last reading
             picker.time_in_polytunnels += tdelta.seconds 
             picker.polytunnel_count += 1
+            picker.fruit_in_basket += picker.picking_speed * tdelta.seconds
         picker.last_reading = reading
-        print('Picker', picker.picker_id, ' In polytunnel?', self.field_map.position_in_polytunnels( picker.pos ),' Polytunnel count:', picker.polytunnel_count, ' picker.time_in_polytunnels:', picker.time_in_polytunnels )
+        print('Picker', picker.picker_id, ' In polytunnel?', self.field_map.position_in_polytunnels( picker.pos ),' Polytunnel count:', picker.polytunnel_count, ' picker.time_in_polytunnels:', picker.time_in_polytunnels, ' picker.fruit_in_basket:', picker.fruit_in_basket )
     
     def call_required( self ): 
         # return self.call_required_PolytunnelCount()

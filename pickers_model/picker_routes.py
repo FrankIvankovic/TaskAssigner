@@ -3,7 +3,7 @@ import json
 import datetime
 import numpy
 import math
-# import cv2
+import cv2
 
 # import pickers_model.strawberry_field 
 
