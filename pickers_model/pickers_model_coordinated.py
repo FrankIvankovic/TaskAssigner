@@ -81,6 +81,7 @@ class PickersModelTaskAssigner( PickersModel ):
                     print('Robot arrived, reseting time counter')
                     p.time_in_polytunnels = 0.0
                     p.polytunnel_count = 0
+                    p.fruit_in_basket = 0.0
                 #elif states[ p.picker_id ]=='REGISTERED':
                     #print('Reseting to default time')
                     #p.time_in_polytunnels = p.start_time_in_polytunnels
