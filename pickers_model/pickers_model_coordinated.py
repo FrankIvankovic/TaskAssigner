@@ -38,6 +38,9 @@ class PickersModelTaskAssigner( PickersModel ):
         # Create agents
         i = 0
         for picker in pickers:
+            
+            print( 'Adding a task assigner picker.' )
+            
             if len( self.pickers ) >= self.num_agents:
                     break
             self.add_TaskAssigner_picker( i, picker )
@@ -110,7 +113,7 @@ class PickersModelTaskAssigner( PickersModel ):
     
     def call_required( self ): 
         # return self.call_required_PolytunnelCount()
-        return self.call_required_SRR_TimeInPolytunnel( self )
+        return self.call_required_SRR_TimeInPolytunnel( )
     
     def call_required_PolytunnelCount( self ):
         

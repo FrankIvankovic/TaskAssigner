@@ -121,6 +121,18 @@ class TopologicalMap :
                 return n 
         return None
     
+    def find_closest_node( self, x,y ): 
+        
+        point_xy = Point( x,y )
+        closest_node = self.nodes[ 0 ]
+        smallest_distance = point_xy.distance( closest_node.point )
+        for n in self.nodes: 
+            d = point_xy.distance( n.point )
+            if d < smallest_distance: 
+                closest_node = n
+                smallest_distance = d
+        return closest_node
+
     def find_node_by_id( self, node_id ): 
         for n in self.nodes:
             if n.node_id==node_id:

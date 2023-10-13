@@ -22,7 +22,12 @@ class PTrackerTrolley( PickingAgent ):
         self.status_state = 'INIT'
         self.battery_message = None 
         self.time_in_polytunnels = 0.0
+        self.start_time_in_polytunnels = 0.0
         self.last_reading = None 
+        
+        self.picking_speed = 50.0 #grams per second
+        self.fruit_basket_capacity = 30000 #grams 
+        self.time_from_empty_to_full = self.fruit_basket_capacity / self.picking_speed
 
     # display message 
 

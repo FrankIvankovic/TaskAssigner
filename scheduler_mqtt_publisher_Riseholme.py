@@ -9,9 +9,7 @@ import pickers_model.pickers_model_coordinated as pmodelc
 
 from scheduler_mqtt_publisher_3 import MqttCommandSender
 
-def create_Riseholme_model(): 
-    
-    visualisation = False
+def create_Riseholme_model( visualise = True ): 
     
     #Mesa model.
     number_of_pickers = 5 
@@ -73,10 +71,10 @@ def create_Riseholme_model():
     for r in model.field_map.unpicked_rows_list:
         r.fruit_yield = grams_per_row
 
-    if not visualisation:
-        return model, None
-
     # Drawing the field.
+    if not visualise: 
+        return model, None
+    
     field_length, field_width = field_map.dimensions
     plt.ion()
     fig, ax = plt.subplots()

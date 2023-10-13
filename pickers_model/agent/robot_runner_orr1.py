@@ -125,8 +125,10 @@ class RobotRunnerOrderedRR1(RobotRunner):
         #else:
             #print( 'Target picker before choosing: ', self.target_picker )
 
-        for picker in subset_of_pickers: 
-            
+        if len( subset_of_pickers )>0:
+        
+                picker = subset_of_pickers[-1]
+     
                 self.target_picker = picker 
                 # self.target_node = picker.assigned_row.entrance_node
                 self.target_node = picker.current_node
@@ -140,8 +142,6 @@ class RobotRunnerOrderedRR1(RobotRunner):
                 dt = self.model.time_counter
                 new_assignment = RobotAssignment( dt, self, self.target_picker, self.target_node )
                 self.model.robot_schedule.append( new_assignment )
-                
-                break
         
         #if self.target_picker!=None:
             #print( 'Target picker after choosing: ', self.target_picker.unique_id )

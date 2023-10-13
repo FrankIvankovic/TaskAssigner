@@ -382,7 +382,7 @@ class PickersModel(mesa.Model):
         
     def add_random_picker( self, i ):
 
-        print("Adding a random picker.")
+        #print("Adding a random picker.")
 
         a = PickingAgent( i, self )
         self.schedule.add(a)

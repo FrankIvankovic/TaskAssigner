@@ -51,6 +51,7 @@ class PickingAgent(mesa.Agent):
         self.picking_speed = 500.0 
         self.fruit_basket_capacity = 15000 #grams 
         self.fruit_in_basket = 0.0 
+        self.one_tray_capacity = 5000.0
         self.total_fruit_picked = 0.0 
         self.total_fruit_delivered = 0.0 
         self.current_node = None 

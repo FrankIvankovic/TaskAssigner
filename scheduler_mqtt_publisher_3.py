@@ -110,10 +110,9 @@ class MqttCommandSender:
                 x,y = robot.pos
                 robot.scatterplot.set_offsets( (x,y) )
                 robot.scatterplot.set_color( "cyan" )
-            
-            if self.figure is not None:
-                self.figure.canvas.draw_idle()
-                plt.pause(0.000001) 
+                
+            self.figure.canvas.draw_idle()
+            plt.pause(0.000001) 
 
     #------
                 
