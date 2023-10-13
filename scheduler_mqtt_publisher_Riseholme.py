@@ -22,10 +22,13 @@ def create_Riseholme_model( visualise = True ):
     model.add_n_robots( number_of_robots ) 
     model.set_start_datetime( start_datetime ) 
 
+    call_period = 180 #seconds
+    picking_speed = 5000 * call_period
+
     #Trackers and pickers.
     model.pickers[0].picker_id = 'STD_v2_bcddc2cfcb68'
     model.pickers[0].picker_id_short = 'bcddc2cfcb68'
-    model.pickers[0].picking_speed = 20
+    model.pickers[0].picking_speed = picking_speed
     model.pickers[0].fruit_in_basket = 150.0 * 20.0 
     model.pickers[0].polytunnel_count = 0
     model.pickers[0].time_in_polytunnels = 150.0
@@ -33,7 +36,7 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[0].fruit_basket_capacity = 18000
     model.pickers[1].picker_id = 'STD_v2_246f284a6c94'
     model.pickers[1].picker_id_short = '246f284a6c94'
-    model.pickers[1].picking_speed = 20
+    model.pickers[1].picking_speed = picking_speed
     model.pickers[1].fruit_in_basket = 200.0
     model.pickers[1].polytunnel_count = 0
     model.pickers[1].time_in_polytunnels = 10.0
@@ -41,7 +44,7 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[1].fruit_basket_capacity = 18000 
     model.pickers[2].picker_id = 'STD_v2_e831cd35d0f4'
     model.pickers[2].picker_id_short = 'e831cd35d0f4'
-    model.pickers[2].picking_speed = 20
+    model.pickers[2].picking_speed = picking_speed
     model.pickers[2].fruit_in_basket = 20 * 130.0
     model.pickers[2].polytunnel_count = 0
     model.pickers[2].time_in_polytunnels = 130.0
@@ -49,7 +52,7 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[2].fruit_basket_capacity = 18000 
     model.pickers[3].picker_id = 'STD_v2_70b8f606c710'
     model.pickers[3].picker_id_short = '70b8f606c710'
-    model.pickers[3].picking_speed = 20
+    model.pickers[3].picking_speed = picking_speed
     model.pickers[3].polytunnel_count = 0
     model.pickers[3].time_in_polytunnels = 120.0
     model.pickers[3].fruit_in_basket = 120.0 * 20.0
@@ -57,7 +60,7 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[3].fruit_basket_capacity = 18000 
     model.pickers[4].picker_id = 'STD_v2_0cb8158460c0'
     model.pickers[4].picker_id_short = '0cb8158460c0'
-    model.pickers[4].picking_speed = 20
+    model.pickers[4].picking_speed = picking_speed
     model.pickers[4].fruit_in_basket = 0.0
     model.pickers[4].polytunnel_count = 0
     model.pickers[4].time_in_polytunnels = 0.0
