@@ -9,7 +9,7 @@ from shapely.geometry import Point, Polygon
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Polygon
 
-import cv2
+# import cv2
 
 from pickers_model.strawberry_field.topological_map import TMNode, TMEdge, TopologicalMap 
 from field_maps.topological_map_from_yaml import create_tmap_from_yamls

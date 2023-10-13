@@ -117,5 +117,5 @@ def create_Riseholme_model( visualise = True ):
 
 if __name__ == '__main__':
 
-    mesa_model, fig = create_Riseholme_model()
+    mesa_model, fig = create_Riseholme_model( visualise = False )
     mqttCommandSender = MqttCommandSender(mesa_model, fig)    
