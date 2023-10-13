@@ -31,10 +31,6 @@ class PickersModelTaskAssigner( PickersModel ):
         
         self.pickers = [] 
         self.robots = [] 
-        self.packing_station = None 
-        
-        self.packing_station_schedule = [ ]  
-        self.packing_station_i = 0  
                 
         #self.schedule = mesa.time.RandomActivation(self)
         self.schedule = mesa.time.BaseScheduler(self)
@@ -59,6 +55,7 @@ class PickersModelTaskAssigner( PickersModel ):
     def update_robot( self, reading ): # to actually update the model
         
         print("Updating robot")
+        #TODO: Add update.
 
     def update_picker_battery( self, reading ): # to actually update the model
         
@@ -76,10 +73,14 @@ class PickersModelTaskAssigner( PickersModel ):
                 #print('Here: ', p.picker_id, states[ p.picker_id ] ) 
                 p.status_state = states[ p.picker_id ]
                 print('Updated: ', p.picker_id, p.status_state)
-                if states[ p.picker_id ]=='INIT': 
+                #if states[ p.picker_id ]=='INIT': 
+                if states[ p.picker_id ]=='ARRIVED': #TODO: Change to something else, but not INIT, as that would reset them all the time.
                     print('Robot arrived, reseting time counter')
                     p.time_in_polytunnels = 0.0
                     p.polytunnel_count = 0
+                #elif states[ p.picker_id ]=='REGISTERED':
+                    #print('Reseting to default time')
+                    #p.time_in_polytunnels = p.start_time_in_polytunnels
 
     def update_picker_gps( self, reading ): # to actually update the model
         
@@ -91,7 +92,7 @@ class PickersModelTaskAssigner( PickersModel ):
         if picker_long=='' or picker_lat=='' or date_and_time=='':
             return
 
-        print(reading['user'])
+        #print(reading['user'])
         
         picker = next(( x for x in self.pickers if x.picker_id == reading['user'] ), None)
         picker.pos = self.field_map.find_xy_from_longlat( float(picker_long), float(picker_lat) ) 
@@ -109,7 +110,7 @@ class PickersModelTaskAssigner( PickersModel ):
     
     def call_required( self ): 
         # return self.call_required_PolytunnelCount()
-        return self.call_required_TimeInPolytunnel()
+        return self.call_required_SRR_TimeInPolytunnel( self )
     
     def call_required_PolytunnelCount( self ):
         
@@ -134,7 +135,7 @@ class PickersModelTaskAssigner( PickersModel ):
         print("Call required?") 
 
         states_that_can_call = [ 'INIT', 'REGISTERED' ] 
-        time_threshold = 90.0 
+        time_threshold = 150.0 
         
         for p in self.pickers:
             print( p.picker_id, p.status_state, p.status_state in states_that_can_call )
@@ -151,20 +152,87 @@ class PickersModelTaskAssigner( PickersModel ):
         else:
             return ''
     
+    def find_pickers_considered_TimeInPolytunnel( self ):
+        
+        states_that_can_call = [ 'INIT', 'REGISTERED' ] 
+        pickers_that_can_call = [ p for p in self.pickers if p.status_state in states_that_can_call ] 
+        # we only consider the pickers we believe have at least one full tray
+        pickers_considered = [ p for p in pickers_that_can_call if p.fruit_in_basket > p.one_tray_capacity ] 
+        
+        for p in self.pickers:
+            print( p.picker_id, p.status_state, p.status_state in states_that_can_call )
+        print( 'Pirckers that can call:', pickers_that_can_call, '  Pickers with full baskets: ', pickers_considered ) 
+        
+        return pickers_considered
+    
+    def return_first_picker_id_from_list( pickers_list ): 
+        if len( pickers_list )>0:
+            return pickers_list[0].picker_id_short 
+        else: 
+            return ''
+    
+    def call_required_SRR_TimeInPolytunnel( self ): 
+        
+        pickers_considered = self.find_pickers_considered_TimeInPolytunnel( )
+        if len( pickers_considered )>0: 
+            p = pickers_considered[0]
+            #p.time_in_polytunnels = 0.0 
+            return pickers_considered[0].picker_id_short
+        else:
+            return ''
+
+    def call_required_ORR1_TimeInPolytunnel( self ): 
+        
+        #returns the picker with most fruit in basket
+        subset_of_pickers = self.find_pickers_considered_TimeInPolytunnel( )
+        subset_of_pickers.sort( key=lambda x: x.fruit_in_basket, reverse=True )
+        return return_first_picker_id_from_list( subset_of_pickers )
+
+    def call_required_ORR1I_TimeInPolytunnel( self ): 
+        
+        #returns the picker with most fruit in basket
+        subset_of_pickers = self.find_pickers_considered_TimeInPolytunnel( )
+        subset_of_pickers.sort( key=lambda x: x.fruit_in_basket, reverse=False )
+        return return_first_picker_id_from_list( subset_of_pickers )
+
+    def call_required_ORR2_TimeInPolytunnel( self ): 
+
+        subset_of_pickers = self.find_pickers_considered_TimeInPolytunnel( )
+        if len( subset_of_pickers )<1:
+            return ''
+        pickers_times = [  ] 
+        for picker in subset_of_pickers: 
+            x,y = picker.pos
+            picker.current_node = self.field_map.topological_map.find_closest_node( x,y )
+            t = self.field_map.topological_map.find_time_to_reach( picker.current_node, picker.model.field_map.find_nearest_packing_station( picker.current_node ), picker.max_speed )
+            pickers_times.append( { 'picker': picker, 'time_to_packing_station': t } )
+        pickers_times.sort( key=lambda x: x[ 'time_to_packing_station' ], reverse=True )
+        p = pickers_times[ 0 ]
+        return p[ 'picker' ].picker_id_short
+
+    def call_required_ORR2I_TimeInPolytunnel( self ): 
+
+        subset_of_pickers = self.find_pickers_considered_TimeInPolytunnel( )
+        if len( subset_of_pickers )<1:
+            return ''
+        pickers_times = [  ] 
+        for picker in subset_of_pickers: 
+            x,y = picker.pos
+            picker.current_node = self.field_map.topological_map.find_closest_node( x,y )
+            t = self.field_map.topological_map.find_time_to_reach( picker.current_node, picker.model.field_map.find_nearest_packing_station( picker.current_node ), picker.max_speed )
+            pickers_times.append( { 'picker': picker, 'time_to_packing_station': t } )
+        pickers_times.sort( key=lambda x: x[ 'time_to_packing_station' ], reverse=False )
+        p = pickers_times[ 0 ]
+        return p[ 'picker' ].picker_id_short
+    
     def call_required_DistanceCovered( self ):
         pass 
     
     def step(self):
     
         self.packing_station_step( ) 
-        
         self.schedule.step()
         self.move_robots()
         self.step_number += 1 
         self.time_counter += datetime.timedelta( seconds = self.step_size )
         
-        #x.append(np.random.rand(1)*10)
-        #y.append(np.random.rand(1)*10)
-        #sc.set_offsets(np.c_[x,y])
-        #fig.canvas.draw_idle()
-        #plt.pause(0.1)

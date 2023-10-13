@@ -102,39 +102,3 @@ def make_Riseholme_1( spacetype = SpaceType.CONTINUOUS2D ):
 
     return field
 
-def test_Riseholme_1( ): 
-    
-    field_map = make_Riseholme_1( )
-    field_length, field_width = field_map.dimensions
-
-    fig, ax = plt.subplots() 
-
-    #px,py = field_map.find_xy_from_longlat( 1.384657, 52.729633 )
-    #ax.scatter( px, py  , color = 'yellow' )
-
-    #px,py = field_map.find_xy_from_longlat( 1.383277, 52.730232 )
-    #ax.scatter( px, py  , color = 'yellow' )
-
-    img = field_map.resized_image( )
-    ax.imshow( img[::-1], origin = 'lower' ) 
-    
-    for t in field_map.polytunnel_list:
-        ax.add_patch( Polygon( t.get_coordinates_list(),
-            edgecolor = 'pink',
-            facecolor = 'green',
-            fill=False,
-            lw=5, alpha = 0.3 ) ) 
-    
-    for e in field_map.topological_map.edges: 
-        x0 = e.nodes[0].pos_x
-        x1 = e.nodes[1].pos_x
-        y0 = e.nodes[0].pos_y
-        y1 = e.nodes[1].pos_y
-        ax.plot( [x0, x1], [y0, y1], color='cyan', linestyle='-', linewidth=1 )
-    
-    plt.show() 
-    
-if __name__ == '__main__' :
-
-    test_Riseholme_1( ) 
-
