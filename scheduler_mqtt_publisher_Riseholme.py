@@ -11,6 +11,8 @@ from scheduler_mqtt_publisher_3 import MqttCommandSender
 
 def create_Riseholme_model(): 
     
+    visualisation = False
+    
     #Mesa model.
     number_of_pickers = 5 
     number_of_robots = 0
@@ -70,6 +72,9 @@ def create_Riseholme_model():
     grams_per_row = 36000 
     for r in model.field_map.unpicked_rows_list:
         r.fruit_yield = grams_per_row
+
+    if not visualisation:
+        return model, None
 
     # Drawing the field.
     field_length, field_width = field_map.dimensions
