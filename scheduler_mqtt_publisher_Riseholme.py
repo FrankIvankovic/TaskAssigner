@@ -23,13 +23,19 @@ def create_Riseholme_model( visualise = True ):
     model.set_start_datetime( start_datetime ) 
 
     call_period = 180 #seconds
-    picking_speed = 5000 * call_period
+    picking_speed = 5000 / call_period
+
+    offset_picker_0 = 150.0 * picking_speed #seconds * picking_speed
+    offset_picker_1 = 20.0 * picking_speed
+    offset_picker_2 = 130.0 * picking_speed
+    offset_picker_3 = 50.0 * picking_speed
+    offset_picker_4 = 0.0 * picking_speed
 
     #Trackers and pickers.
     model.pickers[0].picker_id = 'STD_v2_bcddc2cfcb68'
     model.pickers[0].picker_id_short = 'bcddc2cfcb68'
     model.pickers[0].picking_speed = picking_speed
-    model.pickers[0].fruit_in_basket = 150.0 * 20.0 
+    model.pickers[0].fruit_in_basket = offset_picker_0 
     model.pickers[0].polytunnel_count = 0
     model.pickers[0].time_in_polytunnels = 150.0
     model.pickers[0].start_time_in_polytunnels = model.pickers[0].time_in_polytunnels
@@ -37,7 +43,7 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[1].picker_id = 'STD_v2_246f284a6c94'
     model.pickers[1].picker_id_short = '246f284a6c94'
     model.pickers[1].picking_speed = picking_speed
-    model.pickers[1].fruit_in_basket = 200.0
+    model.pickers[1].fruit_in_basket =  offset_picker_1
     model.pickers[1].polytunnel_count = 0
     model.pickers[1].time_in_polytunnels = 10.0
     model.pickers[1].start_time_in_polytunnels = model.pickers[1].time_in_polytunnels
@@ -45,7 +51,7 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[2].picker_id = 'STD_v2_e831cd35d0f4'
     model.pickers[2].picker_id_short = 'e831cd35d0f4'
     model.pickers[2].picking_speed = picking_speed
-    model.pickers[2].fruit_in_basket = 20 * 130.0
+    model.pickers[2].fruit_in_basket = offset_picker_2
     model.pickers[2].polytunnel_count = 0
     model.pickers[2].time_in_polytunnels = 130.0
     model.pickers[2].start_time_in_polytunnels = model.pickers[2].time_in_polytunnels
@@ -55,13 +61,13 @@ def create_Riseholme_model( visualise = True ):
     model.pickers[3].picking_speed = picking_speed
     model.pickers[3].polytunnel_count = 0
     model.pickers[3].time_in_polytunnels = 120.0
-    model.pickers[3].fruit_in_basket = 120.0 * 20.0
+    model.pickers[3].fruit_in_basket = offset_picker_3
     model.pickers[3].start_time_in_polytunnels = model.pickers[3].time_in_polytunnels
     model.pickers[3].fruit_basket_capacity = 18000 
     model.pickers[4].picker_id = 'STD_v2_0cb8158460c0'
     model.pickers[4].picker_id_short = '0cb8158460c0'
     model.pickers[4].picking_speed = picking_speed
-    model.pickers[4].fruit_in_basket = 0.0
+    model.pickers[4].fruit_in_basket = offset_picker_4
     model.pickers[4].polytunnel_count = 0
     model.pickers[4].time_in_polytunnels = 0.0
     model.pickers[4].start_time_in_polytunnels = model.pickers[4].time_in_polytunnels
