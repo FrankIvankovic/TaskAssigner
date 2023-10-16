@@ -25,11 +25,11 @@ def create_Riseholme_model( visualise = True ):
     call_period = 180 #seconds
     picking_speed = 5000 / call_period
 
-    offset_picker_0 = 150.0 * picking_speed #seconds * picking_speed
-    offset_picker_1 = 20.0 * picking_speed
-    offset_picker_2 = 130.0 * picking_speed
-    offset_picker_3 = 50.0 * picking_speed
-    offset_picker_4 = 0.0 * picking_speed
+    offset_picker_0 = 100.0 * picking_speed # cb68, seconds * picking_speed
+    offset_picker_1 = 20.0 * picking_speed # c94
+    offset_picker_2 = 175.0 * picking_speed # 0f4
+    offset_picker_3 = 150.0 * picking_speed # c710
+    offset_picker_4 = 0.0 * picking_speed # 0c0 
 
     #Trackers and pickers.
     model.pickers[0].picker_id = 'STD_v2_bcddc2cfcb68'
