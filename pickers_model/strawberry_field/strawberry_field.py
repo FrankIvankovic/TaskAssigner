@@ -9,7 +9,7 @@ from shapely.geometry import Point, Polygon
 from shapely.affinity import translate,rotate
 
 import pickers_model.strawberry_field.topological_map as tmap 
-# import cv2
+import cv2
 
 class SpaceType(enum.Enum):
     GRID2D = "GRID2D"

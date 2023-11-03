@@ -4,6 +4,9 @@ import mesa
 import math
 import random
 
+import datetime
+import json
+
 import numpy as np
 from shapely.geometry import LineString, Point
 
@@ -349,6 +352,21 @@ class PickingAgent(mesa.Agent):
         clientid = '"CLIENTID": "'+format( self.picker_id )+'"'
         minute = '"MINUTE": "'+format( current_datetime.minute )+'"'
         print( '{' + hour + ', ' + year + ', ' + latitude + ', ' + utcdateandtime + ', ' + month + ', ' + second + ', ' + longitude + ', ' + day + ', ' + clientid + ', ' + minute + '}' )
+
+    def mqtt_message_gps( self ):
+        
+        #get the location and time data
+        current_time = datetime.datetime.now()
+        posx, posy = self.pos
+        longitude,latitude = self.model.field_map.find_longlat_from_xy( posx,posy )
+        user = self.picker_id
+        client_id = self.picker_id_short
+        
+        #create the message
+        new_gps_mqtt_message = { "RESERVED_3": "", "HDOP": "0.6", "RESERVED_1": "", "HOUR": format( current_time.hour ), "YEAR": format( current_time.year ), "VPA": "", "LATITUDE": format( latitude ), "UTC_DATE_TIME": current_time.strftime( "%Y%m%d%H%M%S.%f" )[:-3], "ERROR": False, "MSL_ALTITUDE": "17.000", "FIX_STATUS": "1", "PDOP_RATING": "ideal", "MONTH": format( current_time.month ), "SECOND": format( current_time.second ), "C/N0_MAX": "37", "GNSS_SATELITES_IN_VIEW": "23", "HPA": "", "HDOP_RATING": "ideal", "LONGITUDE": format( longitude ), "CSQ": "Wifi", "MEAN_DOP_RATING": "ideal", "DAY": format( current_time.day ), "GPS_SATELITES_USED": "9", "VDOP": "0.7", "PDOP": "0.9", "VDOP_RATING": "ideal", "user": user, "CLIENT_ID": client_id, "COURSE_OVER_GROUND": "101.7", "FIX_MODE": "1", "GNSS_RUN_STATUS": "1", "SPEED_OVER_GROUND": "0.00", "MINUTE": format( current_time.minute ), "GLONASS_SATELITES_USED": "8", "RESERVED_2": "" } 
+        json_data = json.dumps( new_gps_mqtt_message )
+
+        return json_data
 
     def display_message(self):
         

@@ -9,7 +9,7 @@ from shapely.geometry import Point, Polygon
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Polygon
 
-# import cv2
+import cv2
 
 from pickers_model.strawberry_field.topological_map import TMNode, TMEdge, TopologicalMap 
 from field_maps.topological_map_from_yaml import create_tmap_from_yamls
@@ -59,8 +59,8 @@ def make_Riseholme_1( spacetype = SpaceType.CONTINUOUS2D ):
     field.longdif_to_meters = 66.5232 / 0.001
     field.latdif_to_meters = 111.2298 / 0.001
     
-    #field.image_path = "../PlaceUK_satellite/Riseholme_1.png" 
-    #field.image_dim = ( 49, 58 ) 
+    field.image_path = "../PlaceUK_satellite/Riseholme_1.png" 
+    field.image_dim = ( 49, 58 ) 
     
     tunnel_l = 8.0 
     tunnel_w = 24.0 
@@ -86,19 +86,30 @@ def make_Riseholme_1( spacetype = SpaceType.CONTINUOUS2D ):
     for t in field.polytunnel_list: 
         t.rotate_shapely( angle, origin = (sw_x,sw_y), use_radians=True )    
 
-    datumfile = 'TopologicalMaps/datum.yaml'
-    filename = 'TopologicalMaps/tmap.yaml'
-    # filename = '../TopologicalMaps/network.yaml'
+    datumfile = '../TopologicalMaps/datum.yaml'
+    # filename = '../TopologicalMaps/tmap.yaml'
+    filename = '../TopologicalMaps/network.tmap2'
 
-    # field.topological_map = guess_topological_map( field ) 
-    field.topological_map = create_tmap_from_yamls( filename, datumfile, field.longdif_to_meters , field.latdif_to_meters )
+    field.topological_map = guess_topological_map( field ) 
 
-    for n in field.topological_map.nodes: 
+    #field.topological_map = create_tmap_from_yamls( filename, datumfile, field.longdif_to_meters , field.latdif_to_meters )
+    #packing_station_1_latitude = 53.268594 
+    #packing_station_1_longitude =  -0.524220 
+    #ps_x, ps_y = field.find_xy_from_longlat( packing_station_1_longitude, packing_station_1_latitude )
+    #n = field.topological_map.find_closest_node( ps_x, ps_y )
+    #nx = n.pos_x
+    #ny = n.pos_y
+    #field.packing_stations = [ ( nx, ny ) ] 
+    #field.packing_stations_nodes = [ n ]
+    
+    #print( 'PACKING STATIONS:', field.packing_stations )
+
+    #for n in field.topological_map.nodes: 
         
-        # turn x and y
-        x,y = field.find_xy_from_longlat_origin( n.longitude, n.latitude )
-        n.pos_x = x
-        n.pos_y = y
+        ## turn x and y
+        #x,y = field.find_xy_from_longlat_origin( n.longitude, n.latitude )
+        #n.pos_x = x
+        #n.pos_y = y
 
     return field
 
