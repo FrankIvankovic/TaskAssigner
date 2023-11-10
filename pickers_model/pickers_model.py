@@ -157,6 +157,59 @@ class PickersModel(mesa.Model):
             self.add_random_picker( i )
             i += 1
     
+        def update_picker_battery( self, reading ): # to actually update the model
+        
+        for p in self.pickers:
+            if p.picker_id == reading["user"]:
+                #print('Here: ', p.picker_id, reading) 
+                p.battery_message = reading
+                print('Updated batter level for: ', p.picker_id, ' Battery level: ', reading["Status"], ' Voltage: ', reading["Voltage"])
+
+    def update_picker_status( self, msg_content ): # to actually update the model
+        
+        states = msg_content[ 'states' ]  
+        for p in self.pickers:
+            if p.picker_id in states.keys():
+                #print('Here: ', p.picker_id, states[ p.picker_id ] ) 
+                p.status_state = states[ p.picker_id ]
+                print('Updated: ', p.picker_id, p.status_state)
+                #if states[ p.picker_id ]=='INIT': 
+                if states[ p.picker_id ]=='ARRIVED': #TODO: Change to something else, but not INIT, as that would reset them all the time.
+                    print('Robot arrived, reseting time counter')
+                    p.time_in_polytunnels = 0.0
+                    p.polytunnel_count = 0
+                    p.fruit_in_basket = 0.0
+                #elif states[ p.picker_id ]=='REGISTERED':
+                    #print('Reseting to default time')
+                    #p.time_in_polytunnels = p.start_time_in_polytunnels
+
+    def update_picker_gps( self, reading ): # to actually update the model
+        
+        print("Updating picker") 
+
+        picker_long = reading[ 'LONGITUDE' ]
+        picker_lat = reading[ 'LATITUDE' ] 
+        date_and_time = reading[ 'UTC_DATE_TIME' ]
+        if picker_long=='' or picker_lat=='' or date_and_time=='':
+            return
+
+        #print(reading['user'])
+        
+        picker = next(( x for x in self.pickers if x.picker_id == reading['user'] ), None)
+        picker.pos = self.field_map.find_xy_from_longlat( float(picker_long), float(picker_lat) ) 
+        # print( 'In polytunnel?', self.field_map.position_in_polytunnels( picker.pos ))
+    
+        dt = datetime.datetime.strptime( reading[ 'UTC_DATE_TIME' ], '%Y%m%d%H%M%S.%f' )        
+        
+        if picker.last_reading!=None and self.field_map.position_in_polytunnels( picker.pos ):
+            dt0 = datetime.datetime.strptime( picker.last_reading[ 'UTC_DATE_TIME' ], '%Y%m%d%H%M%S.%f' ) 
+            tdelta = dt - dt0 #seconds since last reading
+            picker.time_in_polytunnels += tdelta.seconds 
+            picker.polytunnel_count += 1
+            picker.fruit_in_basket += picker.picking_speed * tdelta.seconds
+        picker.last_reading = reading
+        print('Picker', picker.picker_id, ' In polytunnel?', self.field_map.position_in_polytunnels( picker.pos ),' Polytunnel count:', picker.polytunnel_count, ' picker.time_in_polytunnels:', picker.time_in_polytunnels, ' picker.fruit_in_basket:', picker.fruit_in_basket )
+    
     def set_start_datetime( self, dt ): 
         
         self.start_time_datetime = dt 

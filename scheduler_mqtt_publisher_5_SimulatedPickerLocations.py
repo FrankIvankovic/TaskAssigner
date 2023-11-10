@@ -57,7 +57,7 @@ class MqttCommandSender:
         #Create the model and the figure.
         #model = create_Riseholme_simulation() 
         #fig = create_Riseholme_figure( model )
-        show_visual = True
+        show_visual = False
         number_of_steps = 1000 
 
         #Run the simulation.
@@ -71,7 +71,8 @@ class MqttCommandSender:
             if show_visual:
                 update_plot( i, self.mesa_model )
                 self.figure.canvas.draw_idle()
-                plt.pause( 1.0 ) 
+            
+            plt.pause( 1.0 ) 
                 
             #for trolley in self.mesa_model.pickers: 
                 #print( trolley.mqtt_message_gps() )
@@ -225,46 +226,46 @@ def create_Riseholme_simulation():
     picking_rate_2 = 5000 / time_to_require_robot_2
     picking_rate_3 = 5000 / time_to_require_robot_3
 
-    model.pickers[0].picker_id = 'STD_v2_bcddc2cfcb68'
-    model.pickers[0].picker_id_short = 'bcddc2cfcb68'
-    model.pickers[0].picking_speed = picking_rate_1
+    model.pickers[0].picker_id = 'STD_v2_e831cd35d0f4'
+    model.pickers[0].picker_id_short = 'e831cd35d0f4'
+    model.pickers[0].picking_speed = picking_rate_3
     model.pickers[0].fruit_in_basket = 0.0
     model.pickers[0].polytunnel_count = 0
-    model.pickers[0].time_in_polytunnels = 150.0
-    model.pickers[0].start_time_in_polytunnels = model.pickers[0].time_in_polytunnels
-    model.pickers[0].fruit_basket_capacity = 18000
-    model.pickers[1].picker_id = 'STD_v2_246f284a6c94'
-    model.pickers[1].picker_id_short = '246f284a6c94'
-    model.pickers[1].picking_speed = picking_rate_2
+    model.pickers[0].time_in_polytunnels = 130.0
+    model.pickers[0].start_time_in_polytunnels = model.pickers[2].time_in_polytunnels
+    model.pickers[0].fruit_basket_capacity = 18000 
+    model.pickers[1].picker_id = 'STD_v2_70b8f606c710'
+    model.pickers[1].picker_id_short = '70b8f606c710'
+    model.pickers[1].picking_speed = 20
     model.pickers[1].fruit_in_basket = 0.0
     model.pickers[1].polytunnel_count = 0
-    model.pickers[1].time_in_polytunnels = 10.0
-    model.pickers[1].start_time_in_polytunnels = model.pickers[1].time_in_polytunnels
+    model.pickers[1].time_in_polytunnels = 120.0
+    model.pickers[1].start_time_in_polytunnels = model.pickers[3].time_in_polytunnels
     model.pickers[1].fruit_basket_capacity = 18000 
-    model.pickers[2].picker_id = 'STD_v2_e831cd35d0f4'
-    model.pickers[2].picker_id_short = 'e831cd35d0f4'
-    model.pickers[2].picking_speed = picking_rate_3
+    model.pickers[2].picker_id = 'STD_v2_0cb8158460c0'
+    model.pickers[2].picker_id_short = '0cb8158460c0'
+    model.pickers[2].picking_speed = 20
     model.pickers[2].fruit_in_basket = 0.0
     model.pickers[2].polytunnel_count = 0
-    model.pickers[2].time_in_polytunnels = 130.0
-    model.pickers[2].start_time_in_polytunnels = model.pickers[2].time_in_polytunnels
+    model.pickers[2].time_in_polytunnels = 0.0
+    model.pickers[2].start_time_in_polytunnels = model.pickers[4].time_in_polytunnels
     model.pickers[2].fruit_basket_capacity = 18000 
-    #model.pickers[3].picker_id = 'STD_v2_70b8f606c710'
-    #model.pickers[3].picker_id_short = '70b8f606c710'
-    #model.pickers[3].picking_speed = 20
-    #model.pickers[3].fruit_in_basket = 0.0
-    #model.pickers[3].polytunnel_count = 0
-    #model.pickers[3].time_in_polytunnels = 120.0
-    #model.pickers[3].start_time_in_polytunnels = model.pickers[3].time_in_polytunnels
-    #model.pickers[3].fruit_basket_capacity = 18000 
-    #model.pickers[4].picker_id = 'STD_v2_0cb8158460c0'
-    #model.pickers[4].picker_id_short = '0cb8158460c0'
-    #model.pickers[4].picking_speed = 20
-    #model.pickers[4].fruit_in_basket = 0.0
-    #model.pickers[4].polytunnel_count = 0
-    #model.pickers[4].time_in_polytunnels = 0.0
-    #model.pickers[4].start_time_in_polytunnels = model.pickers[4].time_in_polytunnels
-    #model.pickers[4].fruit_basket_capacity = 18000 
+    #model.pickers[0].picker_id = 'STD_v2_bcddc2cfcb68'
+    #model.pickers[0].picker_id_short = 'bcddc2cfcb68'
+    #model.pickers[0].picking_speed = picking_rate_1
+    #model.pickers[0].fruit_in_basket = 0.0
+    #model.pickers[0].polytunnel_count = 0
+    #model.pickers[0].time_in_polytunnels = 150.0
+    #model.pickers[0].start_time_in_polytunnels = model.pickers[0].time_in_polytunnels
+    #model.pickers[0].fruit_basket_capacity = 18000
+    #model.pickers[1].picker_id = 'STD_v2_246f284a6c94'
+    #model.pickers[1].picker_id_short = '246f284a6c94'
+    #model.pickers[1].picking_speed = picking_rate_2
+    #model.pickers[1].fruit_in_basket = 0.0
+    #model.pickers[1].polytunnel_count = 0
+    #model.pickers[1].time_in_polytunnels = 10.0
+    #model.pickers[1].start_time_in_polytunnels = model.pickers[1].time_in_polytunnels
+    #model.pickers[1].fruit_basket_capacity = 18000 
 
     for p in model.field_map.polytunnel_list: 
         model.field_map.unpicked_rows_list += p.list_of_rows
@@ -353,7 +354,8 @@ if __name__ == '__main__':
 
     #mesa_model, fig = create_Riseholme_model()
     model = create_Riseholme_simulation() 
-    fig = create_Riseholme_figure( model )
+    #fig = create_Riseholme_figure( model )
+    fig = None
     mqttCommandSender = MqttCommandSender(model, fig)    
 
  
