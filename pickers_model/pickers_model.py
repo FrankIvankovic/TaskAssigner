@@ -209,6 +209,39 @@ class PickersModel(mesa.Model):
             picker.fruit_in_basket += picker.picking_speed * tdelta.seconds
         picker.last_reading = reading
         print('Picker', picker.picker_id, ' In polytunnel?', self.field_map.position_in_polytunnels( picker.pos ),' Polytunnel count:', picker.polytunnel_count, ' picker.time_in_polytunnels:', picker.time_in_polytunnels, ' picker.fruit_in_basket:', picker.fruit_in_basket )
+        
+    def call_required( self ): 
+        # return self.call_required_PolytunnelCount()
+        return self.call_required_SRR_TimeInPolytunnel( )
+    
+        def find_pickers_considered_TimeInPolytunnel( self ):
+        
+        states_that_can_call = [ 'INIT', 'REGISTERED' ] 
+        pickers_that_can_call = [ p for p in self.pickers if p.status_state in states_that_can_call ] 
+        # we only consider the pickers we believe have at least one full tray
+        pickers_considered = [ p for p in pickers_that_can_call if p.fruit_in_basket > p.one_tray_capacity ] 
+        
+        for p in self.pickers:
+            print( p.picker_id, p.status_state, '\t p.status_state in states_that_can_call', p.status_state in states_that_can_call, '\t p.made_at_least_one_call ', p.made_at_least_one_call )
+        print( 'Pirckers that can call:', pickers_that_can_call, '  Pickers with full baskets: ', pickers_considered ) 
+        
+        return pickers_considered
+    
+    def return_first_picker_id_from_list( pickers_list ): 
+        if len( pickers_list )>0:
+            return pickers_list[0].picker_id_short 
+        else: 
+            return ''
+    
+    def call_required_SRR_TimeInPolytunnel( self ): 
+        
+        pickers_considered = self.find_pickers_considered_TimeInPolytunnel( )
+        if len( pickers_considered )>0: 
+            p = pickers_considered[0]
+            #p.time_in_polytunnels = 0.0 
+            return pickers_considered[0].picker_id_short
+        else:
+            return ''
     
     def set_start_datetime( self, dt ): 
         
