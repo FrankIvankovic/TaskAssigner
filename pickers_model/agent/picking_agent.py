@@ -87,7 +87,14 @@ class PickingAgent(mesa.Agent):
         self.total_break_time = 0 
         self.total_droppingoff_time = 0 
         self.total_movingrows_time = 0 
-        self.total_goingback_time = 0
+        self.total_goingback_time = 0 
+        
+        self.polytunnel_count = 0
+        self.status_state = 'INIT'
+        self.battery_message = None 
+        self.time_in_polytunnels = 0.0
+        self.start_time_in_polytunnels = 0.0
+        self.last_reading = None 
 
     def find_timesteps_till_full( self ): 
 
