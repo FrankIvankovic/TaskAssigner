@@ -214,7 +214,7 @@ class PickersModel(mesa.Model):
         # return self.call_required_PolytunnelCount()
         return self.call_required_SRR_TimeInPolytunnel( )
     
-        def find_pickers_considered_TimeInPolytunnel( self ):
+    def find_pickers_considered_TimeInPolytunnel( self ):
         
         states_that_can_call = [ 'INIT', 'REGISTERED' ] 
         pickers_that_can_call = [ p for p in self.pickers if p.status_state in states_that_can_call ] 
