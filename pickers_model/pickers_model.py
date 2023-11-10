@@ -157,7 +157,7 @@ class PickersModel(mesa.Model):
             self.add_random_picker( i )
             i += 1
     
-        def update_picker_battery( self, reading ): # to actually update the model
+    def update_picker_battery( self, reading ): # to actually update the model
         
         for p in self.pickers:
             if p.picker_id == reading["user"]:
