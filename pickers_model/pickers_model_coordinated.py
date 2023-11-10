@@ -165,7 +165,7 @@ class PickersModelTaskAssigner( PickersModel ):
         pickers_considered = [ p for p in pickers_that_can_call if p.fruit_in_basket > p.one_tray_capacity ] 
         
         for p in self.pickers:
-            print( p.picker_id, p.status_state, p.status_state in states_that_can_call )
+            print( p.picker_id, p.status_state, '\t p.status_state in states_that_can_call', p.status_state in states_that_can_call, '\t p.made_at_least_one_call ', p.made_at_least_one_call )
         print( 'Pirckers that can call:', pickers_that_can_call, '  Pickers with full baskets: ', pickers_considered ) 
         
         return pickers_considered

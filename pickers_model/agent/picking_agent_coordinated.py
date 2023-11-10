@@ -29,6 +29,8 @@ class PTrackerTrolley( PickingAgent ):
         self.fruit_basket_capacity = 30000 #grams 
         self.time_from_empty_to_full = self.fruit_basket_capacity / self.picking_speed
 
+        self.made_at_least_one_call = False
+
     # display message 
 
     def display_message_simple( self ): 

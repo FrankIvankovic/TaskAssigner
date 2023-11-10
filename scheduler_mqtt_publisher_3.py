@@ -121,7 +121,10 @@ class MqttCommandSender:
     def call_for_client_id( self, client_id ): 
         
         print('Calling ', client_id)
-        
         new_mqtt_message = { "user": "STD_v2_" + client_id, "method": "call", "CLIENT_ID": client_id }
         json_data = json.dumps( new_mqtt_message )
         self.mqtt_client.publish( "trolley/method", json_data)
+
+        for p in self.mesa_model.pickers: 
+            if p.picker_id_short==client_id: 
+                p.made_at_least_one_call = True
