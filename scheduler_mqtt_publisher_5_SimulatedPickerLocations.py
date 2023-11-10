@@ -232,7 +232,7 @@ def create_Riseholme_simulation():
     model.pickers[0].fruit_in_basket = 0.0
     model.pickers[0].polytunnel_count = 0
     model.pickers[0].time_in_polytunnels = 130.0
-    model.pickers[0].start_time_in_polytunnels = model.pickers[2].time_in_polytunnels
+    model.pickers[0].start_time_in_polytunnels = model.pickers[0].time_in_polytunnels
     model.pickers[0].fruit_basket_capacity = 18000 
     model.pickers[1].picker_id = 'STD_v2_70b8f606c710'
     model.pickers[1].picker_id_short = '70b8f606c710'
@@ -240,7 +240,7 @@ def create_Riseholme_simulation():
     model.pickers[1].fruit_in_basket = 0.0
     model.pickers[1].polytunnel_count = 0
     model.pickers[1].time_in_polytunnels = 120.0
-    model.pickers[1].start_time_in_polytunnels = model.pickers[3].time_in_polytunnels
+    model.pickers[1].start_time_in_polytunnels = model.pickers[1].time_in_polytunnels
     model.pickers[1].fruit_basket_capacity = 18000 
     model.pickers[2].picker_id = 'STD_v2_0cb8158460c0'
     model.pickers[2].picker_id_short = '0cb8158460c0'
@@ -248,7 +248,7 @@ def create_Riseholme_simulation():
     model.pickers[2].fruit_in_basket = 0.0
     model.pickers[2].polytunnel_count = 0
     model.pickers[2].time_in_polytunnels = 0.0
-    model.pickers[2].start_time_in_polytunnels = model.pickers[4].time_in_polytunnels
+    model.pickers[2].start_time_in_polytunnels = model.pickers[2].time_in_polytunnels
     model.pickers[2].fruit_basket_capacity = 18000 
     #model.pickers[0].picker_id = 'STD_v2_bcddc2cfcb68'
     #model.pickers[0].picker_id_short = 'bcddc2cfcb68'
