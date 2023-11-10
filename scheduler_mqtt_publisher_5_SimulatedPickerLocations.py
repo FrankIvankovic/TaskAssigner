@@ -59,9 +59,7 @@ class MqttCommandSender:
         #fig = create_Riseholme_figure( model )
         show_visual = True
         number_of_steps = 1000 
-    
-        #mqttCommandSender = MqttCommandSender(model, fig)    
-    
+
         #Run the simulation.
         for i in range( number_of_steps ): 
 
@@ -169,7 +167,7 @@ class MqttCommandSender:
         for trolley in self.mesa_model.pickers:
             #self.send_trolley_gps_message( self, trolley )
             json_data = trolley.mqtt_message_gps()
-            #print( json_data )
+            print( 'SENDING:', json_data )
             self.mqtt_client.publish( "trolley/gps", json_data ) 
 
     def send_trolley_gps_message( self, trolley ): 
