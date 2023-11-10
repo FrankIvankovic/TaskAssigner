@@ -96,6 +96,8 @@ class PickingAgent(mesa.Agent):
         self.start_time_in_polytunnels = 0.0
         self.last_reading = None 
 
+        self.made_at_least_one_call = False
+
     def find_timesteps_till_full( self ): 
 
         if self.picking_speed !=0: 

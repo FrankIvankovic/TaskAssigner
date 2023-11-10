@@ -142,16 +142,16 @@ class MqttCommandSender:
             
             for picker in self.mesa_model.pickers:
                 x,y = picker.pos
-                picker.scatterplot.set_offsets( (x,y) )
-                picker.scatterplot.set_color( 'orange' )
+                #picker.scatterplot.set_offsets( (x,y) )
+                #picker.scatterplot.set_color( 'orange' )
 
             for robot in self.mesa_model.robots:
                 x,y = robot.pos
-                robot.scatterplot.set_offsets( (x,y) )
-                robot.scatterplot.set_color( "cyan" )
+                #robot.scatterplot.set_offsets( (x,y) )
+                #robot.scatterplot.set_color( "cyan" )
                 
-            self.figure.canvas.draw_idle()
-            plt.pause(0.000001) 
+            #self.figure.canvas.draw_idle()
+            #plt.pause(0.000001) 
 
     #------
                 
