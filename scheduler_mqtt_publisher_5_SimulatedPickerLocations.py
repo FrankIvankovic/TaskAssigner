@@ -134,7 +134,7 @@ class MqttCommandSender:
        
             print( msg_content['user'], 'Latitude: ', msg_content['LATITUDE'], 'Longitude: ', msg_content['LONGITUDE'] ) 
             
-            self.mesa_model.update_picker_gps( msg_content ) # to actually update the model
+            #self.mesa_model.update_picker_gps( msg_content ) # to actually update the model
             picker_id = self.mesa_model.call_required( )
             
             if picker_id!='':
