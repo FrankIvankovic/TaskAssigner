@@ -433,8 +433,8 @@ if __name__ == '__main__':
     #test_1() 
 
     #mesa_model, fig = create_Riseholme_model()
-    #model = create_Riseholme_simulation() 
-    model = create_f436_simulation()
+    model = create_Riseholme_simulation() 
+    #model = create_f436_simulation()
     #fig = create_Riseholme_figure( model )
     fig = None
     mqttCommandSender = MqttCommandSender(model, fig)    
