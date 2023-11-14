@@ -74,7 +74,7 @@ class MqttCommandSender:
                 update_plot( i, self.mesa_model )
                 self.figure.canvas.draw_idle()
             
-            plt.pause( 1.0 ) 
+            plt.pause( 0.1 ) 
                 
             #for trolley in self.mesa_model.pickers: 
                 #print( trolley.mqtt_message_gps() )
@@ -422,7 +422,7 @@ def test_1():
         if show_visual:
                 update_plot( i, model )
                 fig.canvas.draw_idle()
-                plt.pause( 1.0 ) 
+                plt.pause( 0.1 ) 
                 
         for trolley in model.pickers: 
             print( trolley.mqtt_message_gps() )
