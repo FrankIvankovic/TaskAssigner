@@ -65,7 +65,7 @@ class MqttCommandSender:
         #fig = create_Riseholme_figure( model )
         show_visual = False
         number_of_steps = 10000 
-
+                    
         #Run the simulation.
         for i in range( number_of_steps ): 
 
@@ -483,6 +483,7 @@ if __name__ == '__main__':
     #test_1() 
 
     speedup_factor = os.getenv( 'SPEEDUPFACTOR', 1.0 )
+    #speedup_factor = 1
 
     #parser = argparse.ArgumentParser(description = "Pickers simulation")
     #parser.add_argument("-s", "--speedupfactor", type = float, nargs = 1,

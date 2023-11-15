@@ -95,6 +95,8 @@ class PickingAgent(mesa.Agent):
         self.time_in_polytunnels = 0.0
         self.start_time_in_polytunnels = 0.0
         self.last_reading = None 
+        
+        self.registered = False
 
         self.made_at_least_one_call = False
 

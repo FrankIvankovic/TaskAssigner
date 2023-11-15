@@ -54,7 +54,9 @@ class PickersModel(mesa.Model):
         self.start_time_datetime = datetime.datetime(2023,6,1,7,00,00) 
         self.time_counter = self.start_time_datetime 
         
-        self.messagetype = "Simple"
+        self.messagetype = "Simple" 
+        
+        self.all_pickers_registered = False
         
         # A list of robot schedule events. 
         self.robot_schedule = [  ] 
@@ -179,7 +181,10 @@ class PickersModel(mesa.Model):
                     p.time_in_polytunnels = 0.0
                     p.polytunnel_count = 0
                     p.fruit_in_basket = 0.0
-                #elif states[ p.picker_id ]=='REGISTERED':
+                elif states[ p.picker_id ] in ['INIT','REGISTERED']:
+                    p.registered = True 
+                    if not self.all_pickers_registered:
+                        self.check_if_all_pickers_registered()
                     #print('Reseting to default time')
                     #p.time_in_polytunnels = p.start_time_in_polytunnels
 
@@ -499,6 +504,14 @@ class PickersModel(mesa.Model):
                 return False
         
         # print('All pickers finished.')
+        return True
+    
+    def check_if_all_pickers_registered(self):
+        for p in self.pickers:
+            if not p.registered:
+                return False
+        
+        self.all_pickers_registered = True
         return True
     
     def step(self):
