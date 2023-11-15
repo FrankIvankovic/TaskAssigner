@@ -24,6 +24,7 @@ from matplotlib.patches import Rectangle, Polygon
 from pickers_model.pickers_model import PickerType,PickersModel,Status
 
 from update_plot import update_plot, simulation_step
+import argparse
 
 #========================================= 
 class MqttCommandSender:
@@ -37,10 +38,11 @@ class MqttCommandSender:
 
     #------
         
-    def __init__(self, mesa_model, fig):  #setup_connections(self)
+    def __init__(self, mesa_model, fig, speedup = 1.0):  #setup_connections(self)
 
         self.mesa_model = mesa_model 
         self.figure = fig
+        self.speedup = speedup
         self.time_of_last_gps_message = None
         self.connect_to_mqtt()
 
@@ -75,7 +77,7 @@ class MqttCommandSender:
                 update_plot( i, self.mesa_model )
                 self.figure.canvas.draw_idle()
             
-            plt.pause( 0.1 ) 
+            plt.pause( 1.0 / self.speedup ) 
                 
             #for trolley in self.mesa_model.pickers: 
                 #print( trolley.mqtt_message_gps() )
@@ -456,13 +458,22 @@ if __name__ == '__main__':
 
     #test_1() 
 
+    speedup_factor = os.getenv( 'SPEEDUPFACTOR', 1.0 )
+
+    #parser = argparse.ArgumentParser(description = "Pickers simulation")
+    #parser.add_argument("-s", "--speedupfactor", type = float, nargs = 1,
+                        #metavar = 'speedupfactor', default = [ 1.0 ],
+                        #help = "Speedup factor --- 1.0 by default.")
+    
+    #args = parser.parse_args()
+    #speedup_factor = args.speedupfactor[ 0 ]
+
     #mesa_model, fig = create_Riseholme_model()
     #model = create_Riseholme_simulation() 
     model = create_f436_simulation()
     #fig = create_Riseholme_figure( model )
     fig = None
-    mqttCommandSender = MqttCommandSender(model, fig)    
-
+    mqttCommandSender = MqttCommandSender(model, fig, speedup = speedup_factor )    
  
 #========================================= 
     
