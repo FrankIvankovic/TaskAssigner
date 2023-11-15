@@ -366,8 +366,8 @@ def create_f436_simulation():
     g = pickp.PickerParameterGenerator()
     for p in model.pickers: 
         
-        p.picking_speed = 10
-        p.max_speed = 0.8
+        p.picking_speed = g.random_picking_speed()
+        p.max_speed = g.random_max_walking_speed()
 
     for p in model.field_map.polytunnel_list: 
         model.field_map.unpicked_rows_list += p.list_of_rows
