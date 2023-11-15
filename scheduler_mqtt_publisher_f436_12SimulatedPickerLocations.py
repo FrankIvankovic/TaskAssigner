@@ -44,7 +44,8 @@ class MqttCommandSender:
         self.figure = fig
         self.speedup = speedup
         self.time_of_last_gps_message = None
-        self.connect_to_mqtt()
+        self.total_time = 0.0
+        self.connect_to_mqtt() 
 
     #------
     
@@ -63,7 +64,7 @@ class MqttCommandSender:
         #model = create_Riseholme_simulation() 
         #fig = create_Riseholme_figure( model )
         show_visual = False
-        number_of_steps = 1000 
+        number_of_steps = 10000 
 
         #Run the simulation.
         for i in range( number_of_steps ): 
@@ -83,6 +84,29 @@ class MqttCommandSender:
                 #print( trolley.mqtt_message_gps() )
             
             self.send_all_trolley_gps_messages( )
+            self.total_time += self.mesa_model.step_size
+        
+        #if self.status == Status.RUNNING: 
+            #self.current_period_running_time += self.model.step_size 
+            #self.total_running_time += self.model.step_size
+        #elif self.status == Status.WAITING: 
+            #self.current_period_waiting_time += self.model.step_size 
+            #self.total_waiting_time += self.model.step_size
+        #elif self.status == Status.PICKING: 
+            #self.current_period_picking_time += self.model.step_size 
+            #self.total_picking_time += self.model.step_size
+        #elif self.status == Status.BREAK: 
+            #self.total_break_time += self.model.step_size
+        #elif self.status == Status.DROPPINGOFF:
+            #self.total_droppingoff_time += self.model.step_size
+        #elif self.status == Status.MOVING_ROWS: 
+            #self.total_movingrows_time += self.model.step_size
+        #elif self.status == Status.GOING_BACK:
+            #self.total_goingback_time += self.model.step_size 
+        
+        print('picker_id,fruit_picked,running_time,waiting_time,picking_time,break_time,droppingoff_time,movingrows_time,goingback_time')
+        for p in model.pickers: 
+            print( p.picker_id_short,p.total_fruit_picked,p.total_running_time, p.total_waiting_time,p.total_picking_time,p.total_break_time,p.total_droppingoff_time,p.total_movingrows_time,p.total_goingback_time )
 
     #------
     
