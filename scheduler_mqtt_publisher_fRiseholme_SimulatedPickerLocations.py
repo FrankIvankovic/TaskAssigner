@@ -316,7 +316,7 @@ def create_f436_simulation():
     model.pickers[0].fruit_basket_capacity = 18000 
     model.pickers[1].picker_id = 'STD_v2_70b8f606c710'
     model.pickers[1].picker_id_short = '70b8f606c710'
-    model.pickers[1].picking_speed = 20
+    model.pickers[1].picking_speed = picking_rate_1
     model.pickers[1].fruit_in_basket = 0.0
     model.pickers[1].polytunnel_count = 0
     model.pickers[1].time_in_polytunnels = 120.0
@@ -324,7 +324,7 @@ def create_f436_simulation():
     model.pickers[1].fruit_basket_capacity = 18000 
     model.pickers[2].picker_id = 'STD_v2_0cb8158460c0'
     model.pickers[2].picker_id_short = '0cb8158460c0'
-    model.pickers[2].picking_speed = 20
+    model.pickers[2].picking_speed = picking_rate_2
     model.pickers[2].fruit_in_basket = 0.0
     model.pickers[2].polytunnel_count = 0
     model.pickers[2].time_in_polytunnels = 0.0

@@ -192,6 +192,10 @@ class MqttCommandSender:
         json_data = json.dumps( new_mqtt_message )
         self.mqtt_client.publish( "trolley/method", json_data) 
     
+    def cancel_call_client_id( self, client_id ): 
+        
+        pass
+    
     def send_all_trolley_gps_messages( self ): 
         
         for trolley in self.mesa_model.pickers:
@@ -237,7 +241,7 @@ def create_f436_simulation():
     start_datetime = datetime.datetime(2023,11,3,10,00,00)
 
     number_of_pickers = 12
-    picker_type = PickerType.WAITING3
+    picker_type = PickerType.CANCELW3
     step_size = 1.0
 
     model = PickersModel( field_map, 
