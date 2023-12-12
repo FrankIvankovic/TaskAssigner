@@ -218,6 +218,10 @@ class PickersModel(mesa.Model):
     def call_required( self ): 
         # return self.call_required_PolytunnelCount()
         return self.call_required_SRR_TimeInPolytunnel( )
+
+    def cancel_required( self ): 
+        
+        return [ p for p in self.pickers if p.cancel_message_required ]
     
     def find_pickers_considered_TimeInPolytunnel( self ):
         
@@ -231,7 +235,7 @@ class PickersModel(mesa.Model):
         print( 'Pirckers that can call:', pickers_that_can_call, '  Pickers with full baskets: ', pickers_considered ) 
         
         return pickers_considered
-    
+                
     def return_first_picker_id_from_list( pickers_list ): 
         if len( pickers_list )>0:
             return pickers_list[0].picker_id_short 

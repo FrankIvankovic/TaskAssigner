@@ -164,10 +164,14 @@ class MqttCommandSender:
             print( msg_content['user'], 'Latitude: ', msg_content['LATITUDE'], 'Longitude: ', msg_content['LONGITUDE'] ) 
             
             #self.mesa_model.update_picker_gps( msg_content ) # to actually update the model
-            picker_id = self.mesa_model.call_required( )
-            
+            call_picker_id = self.mesa_model.call_required( )
             if picker_id!='':
-                self.call_for_client_id( picker_id )
+                self.call_for_client_id( call_picker_id )
+
+            cancel_pickers = self.mesa_model.cancel_required( )
+            for p in cancel_pickers: 
+                self.cancel_call_client_id( p.picker_id_short )
+                p.cancel_message_required = False
             
             for picker in self.mesa_model.pickers:
                 x,y = picker.pos
@@ -186,15 +190,19 @@ class MqttCommandSender:
                 
     def call_for_client_id( self, client_id ): 
         
-        print('Calling ', client_id)
+        print('Calling on behalf ofh', client_id)
         
         new_mqtt_message = { "user": "STD_v2_" + client_id, "method": "call", "CLIENT_ID": client_id }
         json_data = json.dumps( new_mqtt_message )
         self.mqtt_client.publish( "trolley/method", json_data) 
     
     def cancel_call_client_id( self, client_id ): 
+
+        print('Cancelling on behalf of', client_id)
         
-        pass
+        new_mqtt_message = { "user": "STD_v2_" + client_id, "method": "cancel", "CLIENT_ID": client_id }        
+        json_data = json.dumps( new_gps_mqtt_message )
+        self.mqtt_client.publish( "trolley/method", json_data )
     
     def send_all_trolley_gps_messages( self ): 
         

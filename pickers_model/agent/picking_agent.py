@@ -99,6 +99,7 @@ class PickingAgent(mesa.Agent):
         self.registered = False
 
         self.made_at_least_one_call = False
+        self.cancel_message_required = False
 
     def find_timesteps_till_full( self ): 
 
