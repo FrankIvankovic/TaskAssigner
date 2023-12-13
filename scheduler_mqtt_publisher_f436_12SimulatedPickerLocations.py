@@ -131,7 +131,7 @@ class MqttCommandSender:
                         
     #------
     
-    def on_message(self, client, userdata, msg):
+    def c(self, client, userdata, msg):
         
         print(f"Message received [{msg.topic}]")
         
@@ -190,7 +190,7 @@ class MqttCommandSender:
                 
     def call_for_client_id( self, client_id ): 
         
-        print('Calling on behalf ofh', client_id)
+        print('Calling on behalf of', client_id)
         
         new_mqtt_message = { "user": "STD_v2_" + client_id, "method": "call", "CLIENT_ID": client_id }
         json_data = json.dumps( new_mqtt_message )
@@ -206,7 +206,8 @@ class MqttCommandSender:
     
     def send_all_trolley_gps_messages( self ): 
         
-        for trolley in self.mesa_model.pickers:
+        trolleys_considered = [ t for t in self.mesa_model.pickers if t.status != Status.DROPPINGOFF ]
+        for trolley in trolleys_considered:
             #self.send_trolley_gps_message( self, trolley )
             json_data = trolley.mqtt_message_gps()
             print( 'SENDING:', json_data )
