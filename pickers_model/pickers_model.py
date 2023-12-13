@@ -27,6 +27,10 @@ from pickers_model.agent.picking_agent_waiting2 import PWaiting2
 from pickers_model.agent.picking_agent_waiting3 import PWaiting3
 from pickers_model.agent.picking_agent_waiting4 import PWaiting4
 from pickers_model.agent.picking_agent_waiting5 import PWaiting5
+
+from pickers_model.agent.picking_agent_cancelw2 import PCancelW2
+from pickers_model.agent.picking_agent_cancelw3 import PCancelW3
+
 from pickers_model.agent.status import Status,RobotStatus
             
 class PickersModel(mesa.Model):
@@ -153,6 +157,18 @@ class PickersModel(mesa.Model):
 
             while len( self.pickers ) < self.num_agents:
                 self.add_waiting5_picker( i, picker_patience, max_waiting_time )
+                i += 1        
+
+        elif picker_type == PickerType.CANCELW2: 
+
+            while len( self.pickers ) < self.num_agents:
+                self.add_cancelw2_picker( i )
+                i += 1        
+
+        elif picker_type == PickerType.CANCELW3: 
+
+            while len( self.pickers ) < self.num_agents:
+                self.add_cancelw3_picker( i )
                 i += 1        
         
         while len( self.pickers ) < self.num_agents:
@@ -350,6 +366,32 @@ class PickersModel(mesa.Model):
             tunnel_point = random.choice( tunnel.points_in_polytunnel_nodes ) 
             self.field_map.mesa_space.place_agent( a, ( tunnel_point.point.x, tunnel_point.point.y ) ) 
             a.current_node = tunnel_point
+
+    def add_cancelw3_picker( self, i ): 
+
+        a = PCancelW3( i, self ) 
+        
+        self.schedule.add(a)
+        self.pickers.append(a) 
+        
+        starting_x, starting_y = self.field_map.packing_stations[ 0 ]
+        
+        self.field_map.mesa_space.place_agent( a, ( starting_x, starting_y ) ) 
+        a.current_node = self.field_map.packing_stations_nodes[ 0 ] 
+        a.target_node = a.current_node
+
+    def add_cancelw2_picker( self, i ): 
+
+        a = PCancelW2( i, self ) 
+        
+        self.schedule.add(a)
+        self.pickers.append(a) 
+        
+        starting_x, starting_y = self.field_map.packing_stations[ 0 ]
+        
+        self.field_map.mesa_space.place_agent( a, ( starting_x, starting_y ) ) 
+        a.current_node = self.field_map.packing_stations_nodes[ 0 ] 
+        a.target_node = a.current_node
 
     def add_waiting5_picker( self, i, p, max_wait ): 
         

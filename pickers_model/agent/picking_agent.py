@@ -24,6 +24,8 @@ class PickerType(enum.Enum):
     WAITING3 = 9
     WAITING4 = 10
     WAITING5 = 11
+    CANCELW2 = 12
+    CANCELW3 = 13
     
 
 def time_within_range( time, interval_dict ): 
