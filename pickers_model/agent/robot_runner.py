@@ -44,7 +44,9 @@ class RobotRunner(mesa.Agent):
     
     def at_picker( self ): 
         selfpoint = Point( self.pos ) 
-        if self.target_picker is None: 
+        if self.target_picker.status == Status.DROPPINGOFF:
+            raise Exception( 'Picker in DROPPINGOFF status!' )
+        if self.target_picker is None or self.target_picker.status.DROPPINGOFF: 
             return False
         elif selfpoint.distance( Point( self.target_picker.pos ) ) < 2.0: 
             return True
