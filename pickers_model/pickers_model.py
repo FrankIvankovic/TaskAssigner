@@ -197,7 +197,8 @@ class PickersModel(mesa.Model):
                     p.time_in_polytunnels = 0.0
                     p.polytunnel_count = 0
                     p.fruit_in_basket = 0.0
-                elif states[ p.picker_id ] in ['INIT','REGISTERED']:
+                    p.call_made = False
+                elif states[ p.picker_id ] in ['REGISTERED']:
                     p.registered = True 
                     if not self.all_pickers_registered:
                         self.check_if_all_pickers_registered()
@@ -244,11 +245,11 @@ class PickersModel(mesa.Model):
         states_that_can_call = [ 'INIT', 'REGISTERED' ] 
         pickers_that_can_call = [ p for p in self.pickers if p.status_state in states_that_can_call ] 
         # we only consider the pickers we believe have at least one full tray
-        pickers_considered = [ p for p in pickers_that_can_call if p.fruit_in_basket > p.one_tray_capacity ] 
+        pickers_considered = [ p for p in pickers_that_can_call if p.fruit_in_basket > p.one_tray_capacity and not p.call_made ] 
         
         for p in self.pickers:
-            print( p.picker_id, p.status_state, '\t p.status_state in states_that_can_call', p.status_state in states_that_can_call, '\t p.made_at_least_one_call ', p.made_at_least_one_call, '\t p.fruit_in_basket ', p.fruit_in_basket, '\t picking,running', p.total_picking_time, p.total_running_time, '\t', p.status )
-        print( 'Pirckers that can call:', pickers_that_can_call, '  Pickers with full baskets: ', pickers_considered ) 
+            print( p.picker_id, p.status_state, '\t p.status_state in states_that_can_call', p.status_state in states_that_can_call, '\t p.made_at_least_one_call ', p.made_at_least_one_call, '\t p.fruit_in_basket ', p.fruit_in_basket, '\t picking,running', p.total_picking_time, p.total_running_time+p.total_droppingoff_time+p.total_goingback_time, '\t', p.status )
+        print( 'Pickers that can call:', pickers_that_can_call, '  Pickers with full baskets: ', pickers_considered ) 
         
         return pickers_considered
                 
@@ -264,7 +265,8 @@ class PickersModel(mesa.Model):
         if len( pickers_considered )>0: 
             p = pickers_considered[0]
             #p.time_in_polytunnels = 0.0 
-            return pickers_considered[0].picker_id_short
+            p.call_made = True
+            return p.picker_id_short
         else:
             return ''
     
@@ -553,12 +555,16 @@ class PickersModel(mesa.Model):
         return True
     
     def check_if_all_pickers_registered(self):
+        n_registered = 0 
         for p in self.pickers:
-            if not p.registered:
-                return False
+            if p.registered:
+               n_registered += 1
         
-        self.all_pickers_registered = True
-        return True
+        if n_registered >= self.num_agents-1:
+            self.all_pickers_registered = True
+            return True
+        else:
+            return False
     
     def step(self):
         """Advance the model by one step."""

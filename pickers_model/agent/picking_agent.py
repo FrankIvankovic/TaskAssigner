@@ -102,6 +102,8 @@ class PickingAgent(mesa.Agent):
 
         self.made_at_least_one_call = False
         self.cancel_message_required = False
+        
+        self.call_made = False
 
     def find_timesteps_till_full( self ): 
 

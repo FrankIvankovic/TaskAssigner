@@ -31,9 +31,11 @@ class MqttCommandSender:
 
     ROBOT_ID = 'gofar' #os.getenv('ROBOT_ID') # ENVIRONMENT VARIABLE
     MQTT_BROKER_IP = 'mqtt.lcas.group'#'127.0.0.1' thats right
+    #MQTT_BROKER_IP = '192.168.137.191'
     # MQTT_BROKER_IP = '10.101.8.31'
     # MQTT_BROKER_IP = '10.101.12.68'
     MQTT_BROKER_PORT = 1883 #Thats right.
+    #MQTT_BROKER_PORT = 8883 #Thats right.
     CLIENT_ID = "cofruit_scheduler"
 
     #------
@@ -131,7 +133,7 @@ class MqttCommandSender:
                         
     #------
     
-    def c(self, client, userdata, msg):
+    def on_message(self, client, userdata, msg):
         
         print(f"Message received [{msg.topic}]")
         
@@ -155,6 +157,7 @@ class MqttCommandSender:
         if msg.topic=='trolley/status':
             
             msg_content = json.loads(msg.payload) # has to be here as rohi2 is using message packs rather than json            
+            print( msg_content )
             self.mesa_model.update_picker_status( msg_content )            
 
         if msg.topic=='trolley/gps':
@@ -165,7 +168,7 @@ class MqttCommandSender:
             
             #self.mesa_model.update_picker_gps( msg_content ) # to actually update the model
             call_picker_id = self.mesa_model.call_required( )
-            if picker_id!='':
+            if call_picker_id!='':
                 self.call_for_client_id( call_picker_id )
 
             cancel_pickers = self.mesa_model.cancel_required( )
@@ -201,7 +204,7 @@ class MqttCommandSender:
         print('Cancelling on behalf of', client_id)
         
         new_mqtt_message = { "user": "STD_v2_" + client_id, "method": "cancel", "CLIENT_ID": client_id }        
-        json_data = json.dumps( new_gps_mqtt_message )
+        json_data = json.dumps( new_mqtt_message )
         self.mqtt_client.publish( "trolley/method", json_data )
     
     def send_all_trolley_gps_messages( self ): 
@@ -210,7 +213,7 @@ class MqttCommandSender:
         for trolley in trolleys_considered:
             #self.send_trolley_gps_message( self, trolley )
             json_data = trolley.mqtt_message_gps()
-            print( 'SENDING:', json_data )
+            #print( 'SENDING:', json_data )
             self.mqtt_client.publish( "trolley/gps", json_data ) 
 
     def send_trolley_gps_message( self, trolley ): 
@@ -419,7 +422,7 @@ def create_f436_simulation():
 
     return model
 
-def create_Riseholme_figure( model ): 
+def create_figure( model ): 
     
     field_map = model.field_map
     
@@ -495,7 +498,7 @@ if __name__ == '__main__':
 
     #test_1() 
 
-    speedup_factor = os.getenv( 'SPEEDUPFACTOR', 1.0 )
+    speedup_factor = os.getenv( 'SPEEDUPFACTOR', 3.0 )
     #speedup_factor = 1
 
     #parser = argparse.ArgumentParser(description = "Pickers simulation")
@@ -509,8 +512,8 @@ if __name__ == '__main__':
     #mesa_model, fig = create_Riseholme_model()
     #model = create_Riseholme_simulation() 
     model = create_f436_simulation()
-    #fig = create_Riseholme_figure( model )
-    fig = None
+    fig = create_figure( model )
+    #fig = None
     mqttCommandSender = MqttCommandSender(model, fig, speedup = speedup_factor )    
  
 #========================================= 

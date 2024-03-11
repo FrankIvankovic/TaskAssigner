@@ -247,6 +247,9 @@ class PCancelW3( PickingAgent ):
 
     def step(self):
 
+        if not self.model.all_pickers_registered:
+            return
+
         new_x, new_y = self.w3_step( ) 
 
         if self.model.spacetype_discrete:

@@ -245,6 +245,9 @@ class PCancelW2( PickingAgent ):
                 self.pos = ( n.pos_x, n.pos_y )
 
     def step(self):
+        
+        if not self.model.all_pickers_registered:
+            return
 
         new_x, new_y = self.w2_step( ) 
 
